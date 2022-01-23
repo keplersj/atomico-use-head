@@ -1,6 +1,6 @@
 {
   "name": "atomico-use-head",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Atomico hook for interacting with the document head",
   "type": "module",
   "source": "src/index.ts",
