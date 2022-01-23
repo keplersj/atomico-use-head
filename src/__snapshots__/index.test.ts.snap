@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useHead Hook hook, no initial state returns a result object when run 1`] = `
+Object {
+  "state": Object {
+    "base": undefined,
+    "bodyAttrs": undefined,
+    "htmlAttrs": undefined,
+    "link": Array [],
+    "meta": Array [],
+    "script": Array [],
+    "style": Array [],
+    "title": undefined,
+  },
+}
+`;
+
+exports[`useHead Hook hook, no initial state returns a result object when run 2`] = `
+<html>
+  <head />
+  <body>
+    <div />
+  </body>
+</html>
+`;
+
+exports[`useHead Hook hook, with initial state returns a result object when run 1`] = `
+Object {
+  "state": Object {
+    "base": Object {
+      "href": "/",
+      "target": "_blank",
+    },
+    "bodyAttrs": Object {
+      "class": "root",
+    },
+    "htmlAttrs": Object {
+      "lang": "en",
+    },
+    "link": Array [
+      Object {
+        "href": "/icons/icon-48x48.png",
+        "rel": "apple-touch-icon",
+        "sizes": "48x48",
+      },
+    ],
+    "meta": Array [
+      Object {
+        "content": "Test Description",
+        "name": "description",
+      },
+    ],
+    "script": Array [
+      Object {
+        "as": "script",
+        "href": "/framework.js",
+        "rel": "preload",
+      },
+    ],
+    "style": Array [
+      Object {
+        "innerText": "body {color: red}",
+      },
+    ],
+    "title": "Test",
+  },
+}
+`;
+
+exports[`useHead Hook hook, with initial state returns a result object when run 2`] = `
+<html
+  lang="en"
+>
+  <head>
+    <title>
+      Test
+    </title>
+    <meta
+      content="Test Description"
+      name="description"
+    />
+    <link
+      href="/icons/icon-48x48.png"
+      rel="apple-touch-icon"
+    />
+    <base
+      href="/"
+      target="_blank"
+    />
+    <style />
+    <script />
+  </head>
+  <body>
+    <div />
+  </body>
+</html>
+`;
+
+exports[`useHead Hook hook, with initial state returns a result object when run 3`] = `
+<html
+  lang=""
+>
+  <head />
+  <body>
+    <div />
+  </body>
+</html>
+`;

@@ -1,0 +1,59 @@
+{
+  "name": "atomico-use-head",
+  "version": "1.0.0",
+  "description": "Atomico hook for interacting with the document head",
+  "type": "module",
+  "source": "src/index.ts",
+  "exports": {
+    "default": "./dist/atomico-use-head.modern.js"
+  },
+  "module": "./dist/atomico-use-head.module.js",
+  "unpkg": "./dist/atomico-use-head.umd.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keplersj/atomico-use-head.git"
+  },
+  "keywords": [
+    "webcomponents",
+    "seo",
+    "head",
+    "meta",
+    "atomico"
+  ],
+  "author": "Kepler Sticka-Jones <kepler@stickajones.org>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keplersj/atomico-use-head/issues"
+  },
+  "homepage": "https://github.com/keplersj/atomico-use-head#readme",
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "atomico": "^1.43.0",
+    "jest": "^27.4.7",
+    "microbundle": "^0.14.2",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5"
+  },
+  "peerDependencies": {
+    "atomico": "^1.43.0"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "collectCoverage": true,
+    "testEnvironment": "jsdom",
+    "globals": {
+      "ts-jest": {
+        "useESM": true
+      }
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
+  }
+}
