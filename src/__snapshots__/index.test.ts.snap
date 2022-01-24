@@ -69,37 +69,52 @@ Object {
 
 exports[`useHead Hook hook, with initial state returns a result object when run 2`] = `
 <html
+  data-atomico-helmet="lang"
   lang="en"
 >
   <head>
-    <title>
+    <title
+      data-atomico-helmet="true"
+    >
       Test
     </title>
     <meta
       content="Test Description"
+      data-atomico-helmet="true"
       name="description"
     />
     <link
+      data-atomico-helmet="true"
       href="/icons/icon-48x48.png"
       rel="apple-touch-icon"
+      sizes="48x48"
     />
     <base
+      data-atomico-helmet="true"
       href="/"
       target="_blank"
     />
-    <style />
-    <script />
+    <style
+      data-atomico-helmet="true"
+    />
+    <script
+      as="script"
+      data-atomico-helmet="true"
+      href="/framework.js"
+      rel="preload"
+    />
   </head>
-  <body>
+  <body
+    class="root"
+    data-atomico-helmet="class"
+  >
     <div />
   </body>
 </html>
 `;
 
 exports[`useHead Hook hook, with initial state returns a result object when run 3`] = `
-<html
-  lang=""
->
+<html>
   <head />
   <body>
     <div />

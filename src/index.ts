@@ -49,7 +49,7 @@ export function useHead(initialHead?: Partial<HeadObject>): HookResult {
           const element = document.createElement("meta");
 
           for (const prop in meta) {
-            (element as any)[prop] = meta[prop];
+            element.setAttribute(prop, meta[prop]);
           }
 
           return element;
@@ -63,7 +63,7 @@ export function useHead(initialHead?: Partial<HeadObject>): HookResult {
           const element = document.createElement("link");
 
           for (const prop in meta) {
-            (element as any)[prop] = meta[prop];
+            element.setAttribute(prop, meta[prop]);
           }
 
           return element;
@@ -75,7 +75,7 @@ export function useHead(initialHead?: Partial<HeadObject>): HookResult {
       const element = document.createElement("base");
 
       for (const prop in headState.base) {
-        (element as any)[prop] = headState.base[prop];
+        element.setAttribute(prop, headState.base[prop]);
       }
 
       elements.push(element);
@@ -87,7 +87,11 @@ export function useHead(initialHead?: Partial<HeadObject>): HookResult {
           const element = document.createElement("style");
 
           for (const prop in meta) {
-            (element as any)[prop] = meta[prop];
+            if (prop === "innerText") {
+              element.innerText = meta[prop];
+            } else {
+              element.setAttribute(prop, meta[prop]);
+            }
           }
 
           return element;
@@ -101,7 +105,11 @@ export function useHead(initialHead?: Partial<HeadObject>): HookResult {
           const element = document.createElement("script");
 
           for (const prop in meta) {
-            (element as any)[prop] = meta[prop];
+            if (prop === "innerText") {
+              element.innerText = element[prop];
+            } else {
+              element.setAttribute(prop, meta[prop]);
+            }
           }
 
           return element;
@@ -114,13 +122,14 @@ export function useHead(initialHead?: Partial<HeadObject>): HookResult {
       const element = document.documentElement;
 
       for (const prop in headState.htmlAttrs) {
-        initialHtmlAttributes[prop] = (element as any)[prop];
-        (element as any)[prop] = headState.htmlAttrs[prop];
+        initialHtmlAttributes[prop] = element.getAttribute(prop);
+        element.setAttribute(prop, headState.htmlAttrs[prop]);
       }
 
-      (element as any)["data-atomico-helmet"] = Object.keys(
-        headState.htmlAttrs
-      ).join(",");
+      element.setAttribute(
+        "data-atomico-helmet",
+        Object.keys(headState.htmlAttrs).join(",")
+      );
     }
 
     const initialBodyAttributes: HeadAttrs = {};
@@ -128,17 +137,18 @@ export function useHead(initialHead?: Partial<HeadObject>): HookResult {
       const element = document.body;
 
       for (const prop in headState.bodyAttrs) {
-        initialBodyAttributes[prop] = (element as any)[prop];
-        (element as any)[prop] = headState.bodyAttrs[prop];
+        initialBodyAttributes[prop] = element.getAttribute(prop);
+        element.setAttribute(prop, headState.bodyAttrs[prop]);
       }
 
-      (element as any)["data-atomico-helmet"] = Object.keys(
-        headState.bodyAttrs
-      ).join(",");
+      element.setAttribute(
+        "data-atomico-helmet",
+        Object.keys(headState.bodyAttrs).join(",")
+      );
     }
 
     for (const element of elements) {
-      (element as any)["data-atomico-helmet"] = true;
+      element.setAttribute("data-atomico-helmet", "true");
       document.head.appendChild(element);
     }
 
@@ -151,20 +161,28 @@ export function useHead(initialHead?: Partial<HeadObject>): HookResult {
         const html = document.documentElement;
 
         for (const prop in initialHtmlAttributes) {
-          (html as any)[prop] = initialHtmlAttributes[prop];
+          if (initialHtmlAttributes[prop]) {
+            html.setAttribute(prop, initialHtmlAttributes[prop]);
+          } else {
+            html.removeAttribute(prop);
+          }
         }
 
-        delete (html as any)["data-atomico-helmet"];
+        html.removeAttribute("data-atomico-helmet");
       }
 
       if (headState.bodyAttrs) {
         const body = document.body;
 
         for (const prop in initialBodyAttributes) {
-          (body as any)[prop] = initialBodyAttributes[prop];
+          if (initialBodyAttributes[prop]) {
+            body.setAttribute(prop, initialBodyAttributes[prop]);
+          } else {
+            body.removeAttribute(prop);
+          }
         }
 
-        delete (body as any)["data-atomico-helmet"];
+        body.removeAttribute("data-atomico-helmet");
       }
     };
   }, [headState]);
