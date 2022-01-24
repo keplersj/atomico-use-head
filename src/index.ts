@@ -28,13 +28,26 @@ interface HookResult {
   state?: Partial<HeadObject>;
 }
 
-export function useHead(initialHead?: Partial<HeadObject>): HookResult {
+interface Options {
+  hydrate: boolean;
+}
+
+export function useHead(
+  initialHead?: Partial<HeadObject>,
+  options?: Partial<Options>
+): HookResult {
   const [headState, setHeadState] = useState({
     ...defaultHeadState,
     ...initialHead,
   });
 
   useLayoutEffect(() => {
+    if (options?.hydrate) {
+      document.querySelectorAll("[data-atomico-helmet]").forEach((element) => {
+        element.remove();
+      });
+    }
+
     const elements: HTMLElement[] = [];
 
     if (headState.title) {
