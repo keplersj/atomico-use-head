@@ -26,7 +26,7 @@ describe("useHead Hook", () => {
       const hooks = createHooks(jest.fn(), host);
 
       const { useHead } = await import("./index");
-      const head = hooks.load(() => useHead());
+      const head = hooks.load(() => useHead({}));
 
       expect(head).toMatchSnapshot();
 
@@ -64,7 +64,7 @@ describe("useHead Hook", () => {
           },
           style: [
             {
-              innerText: "body {color: red}",
+              children: "body {color: red}",
             },
           ],
           script: [
