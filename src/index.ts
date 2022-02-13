@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "atomico/core";
+import { h, useLayoutEffect, render } from "atomico";
 
 type HeadAttrs = Record<string, any>;
 
@@ -32,14 +32,17 @@ interface Options {
   hydrate: boolean;
 }
 
+const defaultAttrs = {
+  "data-atomico-helmet": "true",
+};
+
+type BackupAttr = { [prop: string]: string | null };
+
 export function useHead(
-  initialHead?: Partial<HeadObject>,
+  initialState: Partial<HeadObject>,
   options?: Partial<Options>
 ): HookResult {
-  const [headState, setHeadState] = useState({
-    ...defaultHeadState,
-    ...initialHead,
-  });
+  const headState = { ...defaultHeadState, ...initialState };
 
   useLayoutEffect(() => {
     if (options?.hydrate) {
@@ -48,159 +51,57 @@ export function useHead(
       });
     }
 
-    const elements: HTMLElement[] = [];
-
-    if (headState.title) {
-      const titleElement = document.createElement("title");
-      titleElement.text = headState.title;
-      elements.push(titleElement);
-    }
-
-    if (headState.meta) {
-      elements.push(
-        ...headState.meta.map((meta) => {
-          const element = document.createElement("meta");
-
-          for (const prop in meta) {
-            element.setAttribute(prop, meta[prop]);
-          }
-
-          return element;
-        })
+    const htmlAttrs: BackupAttr | undefined =
+      headState.htmlAttrs &&
+      Object.keys(headState.htmlAttrs).reduce(
+        (props, attr) => ({
+          ...props,
+          [attr]: document.documentElement.getAttribute(attr) || null,
+        }),
+        {}
       );
-    }
-
-    if (headState.link) {
-      elements.push(
-        ...headState.link.map((meta) => {
-          const element = document.createElement("link");
-
-          for (const prop in meta) {
-            element.setAttribute(prop, meta[prop]);
-          }
-
-          return element;
-        })
+    const bodyAttrs: BackupAttr | undefined =
+      headState.bodyAttrs &&
+      Object.keys(headState.bodyAttrs).reduce(
+        (props, attr) => ({
+          ...props,
+          [attr]: document.body.getAttribute(attr) || null,
+        }),
+        {}
       );
-    }
-
-    if (headState.base) {
-      const element = document.createElement("base");
-
-      for (const prop in headState.base) {
-        element.setAttribute(prop, headState.base[prop]);
-      }
-
-      elements.push(element);
-    }
-
-    if (headState.style) {
-      elements.push(
-        ...headState.style.map((meta) => {
-          const element = document.createElement("style");
-
-          for (const prop in meta) {
-            if (prop === "innerText") {
-              element.innerText = meta[prop];
-            } else {
-              element.setAttribute(prop, meta[prop]);
-            }
-          }
-
-          return element;
-        })
-      );
-    }
-
-    if (headState.script) {
-      elements.push(
-        ...headState.script.map((meta) => {
-          const element = document.createElement("script");
-
-          for (const prop in meta) {
-            if (prop === "innerText") {
-              element.innerText = element[prop];
-            } else {
-              element.setAttribute(prop, meta[prop]);
-            }
-          }
-
-          return element;
-        })
-      );
-    }
-
-    const initialHtmlAttributes: HeadAttrs = {};
-    if (headState.htmlAttrs) {
-      const element = document.documentElement;
-
-      for (const prop in headState.htmlAttrs) {
-        initialHtmlAttributes[prop] = element.getAttribute(prop);
-        element.setAttribute(prop, headState.htmlAttrs[prop]);
-      }
-
-      element.setAttribute(
-        "data-atomico-helmet",
-        Object.keys(headState.htmlAttrs).join(",")
-      );
-    }
-
-    const initialBodyAttributes: HeadAttrs = {};
-    if (headState.bodyAttrs) {
-      const element = document.body;
-
-      for (const prop in headState.bodyAttrs) {
-        initialBodyAttributes[prop] = element.getAttribute(prop);
-        element.setAttribute(prop, headState.bodyAttrs[prop]);
-      }
-
-      element.setAttribute(
-        "data-atomico-helmet",
-        Object.keys(headState.bodyAttrs).join(",")
-      );
-    }
-
-    for (const element of elements) {
-      element.setAttribute("data-atomico-helmet", "true");
-      document.head.appendChild(element);
-    }
-
     return () => {
-      for (const element of elements) {
-        element.remove();
-      }
-
-      if (headState.htmlAttrs) {
-        const html = document.documentElement;
-
-        for (const prop in initialHtmlAttributes) {
-          if (initialHtmlAttributes[prop]) {
-            html.setAttribute(prop, initialHtmlAttributes[prop]);
-          } else {
-            html.removeAttribute(prop);
-          }
-        }
-
-        html.removeAttribute("data-atomico-helmet");
-      }
-
-      if (headState.bodyAttrs) {
-        const body = document.body;
-
-        for (const prop in initialBodyAttributes) {
-          if (initialBodyAttributes[prop]) {
-            body.setAttribute(prop, initialBodyAttributes[prop]);
-          } else {
-            body.removeAttribute(prop);
-          }
-        }
-
-        body.removeAttribute("data-atomico-helmet");
-      }
+      render(h("host", htmlAttrs), document.documentElement);
+      render(h("host", null), document.head);
+      render(h("host", bodyAttrs), document.body);
     };
-  }, [headState]);
+  }, []);
 
-  return {
-    state: headState,
-  };
+  useLayoutEffect(() => {
+    render(
+      h(
+        "host",
+        null,
+        headState.title && h("title", defaultAttrs, headState.title),
+        headState.meta &&
+          headState.meta.map((meta) => h("meta", { ...defaultAttrs, ...meta })),
+        headState.link &&
+          headState.link.map((meta) => h("link", { ...defaultAttrs, ...meta })),
+        headState.base && h("base", { ...defaultAttrs, ...headState.base }),
+        headState.style &&
+          headState.style.map((meta) =>
+            h("style", { ...defaultAttrs, ...meta })
+          ),
+        headState.script &&
+          headState.script.map((meta) =>
+            h("script", { ...defaultAttrs, ...meta })
+          )
+      ),
+      document.head
+    );
+
+    render(h("host", headState.htmlAttrs), document.documentElement);
+    render(h("host", headState.bodyAttrs), document.body);
+  }, [JSON.stringify(headState)]);
+
+  return { state: headState };
 }
