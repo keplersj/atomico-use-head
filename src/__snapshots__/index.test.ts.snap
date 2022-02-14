@@ -59,7 +59,7 @@ Object {
     ],
     "style": Array [
       Object {
-        "innerText": "body {color: red}",
+        "children": "body {color: red}",
       },
     ],
     "title": "Test",
@@ -69,14 +69,16 @@ Object {
 
 exports[`useHead Hook hook, with initial state returns a result object when run 2`] = `
 <html
-  data-atomico-helmet="lang"
   lang="en"
 >
   <head>
+    Mark {}
     <title
       data-atomico-helmet="true"
     >
+      Mark {}
       Test
+      Mark {}
     </title>
     <meta
       content="Test Description"
@@ -96,17 +98,21 @@ exports[`useHead Hook hook, with initial state returns a result object when run 
     />
     <style
       data-atomico-helmet="true"
-    />
+    >
+      Mark {}
+      body {color: red}
+      Mark {}
+    </style>
     <script
       as="script"
       data-atomico-helmet="true"
       href="/framework.js"
       rel="preload"
     />
+    Mark {}
   </head>
   <body
     class="root"
-    data-atomico-helmet="class"
   >
     <div />
   </body>
@@ -114,9 +120,16 @@ exports[`useHead Hook hook, with initial state returns a result object when run 
 `;
 
 exports[`useHead Hook hook, with initial state returns a result object when run 3`] = `
-<html>
-  <head />
-  <body>
+<html
+  lang=""
+>
+  <head>
+    Mark {}
+    Mark {}
+  </head>
+  <body
+    class=""
+  >
     <div />
   </body>
 </html>

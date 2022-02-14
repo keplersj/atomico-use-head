@@ -36,7 +36,7 @@
   "homepage": "https://github.com/keplersj/atomico-use-head#readme",
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "atomico": "^1.43.0",
+    "atomico": "1.45.1",
     "jest": "^27.4.7",
     "microbundle": "^0.14.2",
     "rimraf": "^3.0.2",
@@ -44,7 +44,7 @@
     "typescript": "^4.5.5"
   },
   "peerDependencies": {
-    "atomico": "^1.43.0"
+    "atomico": "^1.45.1"
   },
   "jest": {
     "preset": "ts-jest/presets/default-esm",
