@@ -15,7 +15,8 @@
     "build": "microbundle",
     "dev": "microbundle watch",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "prepack": "npm run clean && npm run build"
+    "prepack": "npm run clean && npm run build",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -39,8 +40,11 @@
   },
   "homepage": "https://github.com/keplersj/atomico-use-head#readme",
   "devDependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
     "@types/jest": "27.4.0",
     "atomico": "1.45.1",
+    "husky": "^7.0.4",
     "jest": "27.5.1",
     "microbundle": "0.14.2",
     "rimraf": "3.0.2",
@@ -62,5 +66,10 @@
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
     }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
