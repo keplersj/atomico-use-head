@@ -4,6 +4,7 @@
 [![npm](https://img.shields.io/npm/dw/atomico-use-head)](https://www.npmjs.com/package/atomico-use-head)
 [![Codecov](https://img.shields.io/codecov/c/github/keplersj/atomico-use-head)](https://app.codecov.io/gh/keplersj/atomico-use-head)
 [![Bundle Size](https://img.shields.io/bundlephobia/min/atomico-use-head)](https://bundlephobia.com/package/atomico-use-head)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://www.conventionalcommits.org/)
 
 Atomico hook for interacting with the document head.
 
