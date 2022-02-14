@@ -16,6 +16,7 @@
     "dev": "microbundle watch",
     "format": "prettier --write .",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint": "eslint .",
     "prepack": "npm run clean && npm run build",
     "prepare": "husky install"
   },
@@ -45,6 +46,8 @@
     "@commitlint/config-conventional": "^16.2.1",
     "@types/jest": "27.4.0",
     "atomico": "1.45.1",
+    "eslint": "^7.32.0",
+    "eslint-config-starstuff": "^1.5.8",
     "husky": "^7.0.4",
     "jest": "27.5.1",
     "microbundle": "0.14.2",
@@ -79,5 +82,11 @@
       "main",
       "next"
     ]
+  },
+  "eslintConfig": {
+    "extends": "starstuff/auto",
+    "env": {
+      "browser": true
+    }
   }
 }

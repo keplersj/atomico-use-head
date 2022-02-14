@@ -2,7 +2,7 @@ import { jest } from "@jest/globals";
 import { createHooks } from "atomico/test-hooks";
 
 afterEach(() => {
-  document.getElementsByTagName("html")[0].innerHTML = "";
+  document.querySelectorAll("html")[0].innerHTML = "";
 });
 
 describe("useHead Hook", () => {
@@ -22,7 +22,7 @@ describe("useHead Hook", () => {
     it("returns a result object when run", async () => {
       const host = document.createElement("div");
       host.attachShadow({ mode: "open" });
-      document.body.appendChild(host);
+      document.body.append(host);
       const hooks = createHooks(jest.fn(), host);
 
       const { useHead } = await import("./index");
@@ -38,7 +38,7 @@ describe("useHead Hook", () => {
     it("returns a result object when run", async () => {
       const host = document.createElement("div");
       host.attachShadow({ mode: "open" });
-      document.body.appendChild(host);
+      document.body.append(host);
       const hooks = createHooks(jest.fn(), host);
 
       const { useHead } = await import("./index");

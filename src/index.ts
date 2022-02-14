@@ -1,16 +1,16 @@
 import { h, useLayoutEffect, render } from "atomico";
 
-type HeadAttrs = Record<string, any>;
+type HeadAttributes = Record<string, any>;
 
 interface HeadObject {
   title: string;
-  meta: HeadAttrs[];
-  link: HeadAttrs[];
-  base: HeadAttrs;
-  style: HeadAttrs[];
-  script: HeadAttrs[];
-  htmlAttrs: HeadAttrs;
-  bodyAttrs: HeadAttrs;
+  meta: HeadAttributes[];
+  link: HeadAttributes[];
+  base: HeadAttributes;
+  style: HeadAttributes[];
+  script: HeadAttributes[];
+  htmlAttrs: HeadAttributes;
+  bodyAttrs: HeadAttributes;
 }
 
 const defaultHeadState: Partial<HeadObject> = {
@@ -32,11 +32,11 @@ interface Options {
   hydrate: boolean;
 }
 
-const defaultAttrs = {
+const defaultAttributes = {
   "data-atomico-helmet": "true",
 };
 
-type BackupAttr = { [prop: string]: string | null };
+type BackupAttribute = { [prop: string]: string | undefined };
 
 export function useHead(
   initialState: Partial<HeadObject>,
@@ -46,33 +46,33 @@ export function useHead(
 
   useLayoutEffect(() => {
     if (options?.hydrate) {
-      document.querySelectorAll("[data-atomico-helmet]").forEach((element) => {
+      for (const element of document.querySelectorAll(
+        "[data-atomico-helmet]"
+      )) {
         element.remove();
-      });
+      }
     }
 
-    const htmlAttrs: BackupAttr | undefined =
+    const htmlAttributes: BackupAttribute | undefined =
       headState.htmlAttrs &&
-      Object.keys(headState.htmlAttrs).reduce(
-        (props, attr) => ({
-          ...props,
-          [attr]: document.documentElement.getAttribute(attr) || null,
-        }),
-        {}
+      Object.fromEntries(
+        Object.keys(headState.htmlAttrs).map((attribute) => [
+          attribute,
+          document.documentElement.getAttribute(attribute) || undefined,
+        ])
       );
-    const bodyAttrs: BackupAttr | undefined =
+    const bodyAttributes: BackupAttribute | undefined =
       headState.bodyAttrs &&
-      Object.keys(headState.bodyAttrs).reduce(
-        (props, attr) => ({
-          ...props,
-          [attr]: document.body.getAttribute(attr) || null,
-        }),
-        {}
+      Object.fromEntries(
+        Object.keys(headState.bodyAttrs).map((attribute) => [
+          attribute,
+          document.body.getAttribute(attribute) || undefined,
+        ])
       );
     return () => {
-      render(h("host", htmlAttrs), document.documentElement);
-      render(h("host", null), document.head);
-      render(h("host", bodyAttrs), document.body);
+      render(h("host", htmlAttributes), document.documentElement);
+      render(h("host"), document.head);
+      render(h("host", bodyAttributes), document.body);
     };
   }, []);
 
@@ -80,20 +80,25 @@ export function useHead(
     render(
       h(
         "host",
-        null,
-        headState.title && h("title", defaultAttrs, headState.title),
+        undefined,
+        headState.title && h("title", defaultAttributes, headState.title),
         headState.meta &&
-          headState.meta.map((meta) => h("meta", { ...defaultAttrs, ...meta })),
+          headState.meta.map((meta) =>
+            h("meta", { ...defaultAttributes, ...meta })
+          ),
         headState.link &&
-          headState.link.map((meta) => h("link", { ...defaultAttrs, ...meta })),
-        headState.base && h("base", { ...defaultAttrs, ...headState.base }),
+          headState.link.map((meta) =>
+            h("link", { ...defaultAttributes, ...meta })
+          ),
+        headState.base &&
+          h("base", { ...defaultAttributes, ...headState.base }),
         headState.style &&
           headState.style.map((meta) =>
-            h("style", { ...defaultAttrs, ...meta })
+            h("style", { ...defaultAttributes, ...meta })
           ),
         headState.script &&
           headState.script.map((meta) =>
-            h("script", { ...defaultAttrs, ...meta })
+            h("script", { ...defaultAttributes, ...meta })
           )
       ),
       document.head
