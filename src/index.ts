@@ -30,6 +30,7 @@ interface HookResult {
 
 interface Options {
   hydrate: boolean;
+  dirty: boolean;
 }
 
 const defaultAttributes = {
@@ -53,7 +54,7 @@ export function useHead(
       }
     }
 
-    const htmlAttributes: BackupAttribute | undefined =
+    const backupHtmlAttributes: BackupAttribute | undefined =
       headState.htmlAttrs &&
       Object.fromEntries(
         Object.keys(headState.htmlAttrs).map((attribute) => [
@@ -61,7 +62,7 @@ export function useHead(
           document.documentElement.getAttribute(attribute) || undefined,
         ])
       );
-    const bodyAttributes: BackupAttribute | undefined =
+    const backupBodyAttributes: BackupAttribute | undefined =
       headState.bodyAttrs &&
       Object.fromEntries(
         Object.keys(headState.bodyAttrs).map((attribute) => [
@@ -69,14 +70,7 @@ export function useHead(
           document.body.getAttribute(attribute) || undefined,
         ])
       );
-    return () => {
-      render(h("host", htmlAttributes), document.documentElement);
-      render(h("host"), document.head);
-      render(h("host", bodyAttributes), document.body);
-    };
-  }, []);
 
-  useLayoutEffect(() => {
     render(
       h(
         "host",
@@ -106,6 +100,14 @@ export function useHead(
 
     render(h("host", headState.htmlAttrs), document.documentElement);
     render(h("host", headState.bodyAttrs), document.body);
+
+    if (!options?.dirty) {
+      return () => {
+        render(h("host", backupHtmlAttributes), document.documentElement);
+        render(h("host"), document.head);
+        render(h("host", backupBodyAttributes), document.body);
+      };
+    }
   }, [JSON.stringify(headState)]);
 
   return { state: headState };
