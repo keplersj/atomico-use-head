@@ -120,16 +120,12 @@ exports[`useHead Hook hook, with initial state returns a result object when run 
 `;
 
 exports[`useHead Hook hook, with initial state returns a result object when run 3`] = `
-<html
-  lang=""
->
+<html>
   <head>
     Mark {}
     Mark {}
   </head>
-  <body
-    class=""
-  >
+  <body>
     <div />
   </body>
 </html>

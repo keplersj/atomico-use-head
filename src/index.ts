@@ -98,14 +98,42 @@ export function useHead(
       document.head
     );
 
-    render(h("host", headState.htmlAttrs), document.documentElement);
-    render(h("host", headState.bodyAttrs), document.body);
+    for (const attribute in headState.htmlAttrs) {
+      document.documentElement.setAttribute(
+        attribute,
+        headState.htmlAttrs[attribute]
+      );
+    }
+
+    for (const attribute in headState.bodyAttrs) {
+      document.body.setAttribute(attribute, headState.bodyAttrs[attribute]);
+    }
 
     if (!options?.dirty) {
       return () => {
-        render(h("host", backupHtmlAttributes), document.documentElement);
+        for (const attribute in backupHtmlAttributes) {
+          if (backupHtmlAttributes[attribute]! === undefined) {
+            document.documentElement.removeAttribute(attribute);
+          } else {
+            document.documentElement.setAttribute(
+              attribute,
+              backupHtmlAttributes[attribute]!
+            );
+          }
+        }
+
+        for (const attribute in backupBodyAttributes) {
+          if (backupBodyAttributes[attribute]! === undefined) {
+            document.body.removeAttribute(attribute);
+          } else {
+            document.body.setAttribute(
+              attribute,
+              backupBodyAttributes[attribute]!
+            );
+          }
+        }
+
         render(h("host"), document.head);
-        render(h("host", backupBodyAttributes), document.body);
       };
     }
   }, [JSON.stringify(headState)]);
