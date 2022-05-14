@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/keplersj/atomico-use-head#readme",
   "devDependencies": {
-    "@commitlint/cli": "16.2.4",
+    "@commitlint/cli": "16.3.0",
     "@commitlint/config-conventional": "16.2.4",
     "@types/jest": "27.5.1",
     "atomico": "1.57.0",
