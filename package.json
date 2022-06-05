@@ -45,7 +45,7 @@
     "@commitlint/cli": "17.0.2",
     "@commitlint/config-conventional": "17.0.2",
     "@types/jest": "27.5.2",
-    "atomico": "1.59.0",
+    "atomico": "1.59.1",
     "eslint": "8.17.0",
     "eslint-config-starstuff": "1.5.11",
     "husky": "8.0.1",
