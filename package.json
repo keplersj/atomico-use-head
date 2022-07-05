@@ -47,7 +47,7 @@
     "@types/jest": "27.5.2",
     "atomico": "1.60.3",
     "eslint": "8.19.0",
-    "eslint-config-starstuff": "1.5.11",
+    "eslint-config-starstuff": "1.5.12",
     "husky": "8.0.1",
     "jest": "27.5.1",
     "microbundle": "0.15.0",
