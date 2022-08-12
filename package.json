@@ -50,7 +50,7 @@
     "eslint-config-starstuff": "1.5.12",
     "husky": "8.0.1",
     "jest": "27.5.1",
-    "microbundle": "0.15.0",
+    "microbundle": "0.15.1",
     "prettier": "2.7.1",
     "rimraf": "3.0.2",
     "ts-jest": "27.1.5",
