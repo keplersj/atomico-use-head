@@ -48,7 +48,7 @@
     "atomico": "1.66.0",
     "eslint": "8.23.1",
     "eslint-config-starstuff": "1.5.13",
-    "husky": "8.0.1",
+    "husky": "8.0.3",
     "jest": "27.5.1",
     "microbundle": "0.15.1",
     "prettier": "2.7.1",
